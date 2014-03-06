@@ -20,11 +20,11 @@ public class Deck {
 		for (int k = 0 ; k < N_DECKS; k++){
 			for (int i = 0; i < N_ONEDECK; i++){
 				for (int j = 0; j < N_COLORS; j++){
-					cards.add(new Card(i + 1, j + 1));
+					cards.add(new Card(i + 2, j));
 				}
 			}
-			cards.add(new Card(16, N_COLORS + 1));
-			cards.add(new Card(17, N_COLORS + 1));
+			cards.add(new Card(17, N_COLORS));
+			cards.add(new Card(18, N_COLORS));
 		}
 		validDeck = true;
 	}
@@ -39,15 +39,14 @@ public class Deck {
 	}
 	
 	public void shuffle() {
-		for (int j = 0; j < 7 ; j++){
-			long seed = new Random().nextLong();
-			Random rand = new Random(seed);
-			for (int i = 106; i >= 1; i--) {
-				int idx = rand.nextInt(i);
-				Card temp = cards.get(idx);
-				cards.set(idx,cards.get(i+1));
-				cards.set(i+1, temp);
-			}
+		
+		long seed = new Random().nextLong();
+		Random rand = new Random(seed);
+		for (int i = 106; i >= 1; i--) {
+			int idx = rand.nextInt(i);
+			Card temp = cards.get(idx);
+			cards.set(idx,cards.get(i+1));
+			cards.set(i+1, temp);
 		}
 	}
 	

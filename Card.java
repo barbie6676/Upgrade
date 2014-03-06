@@ -4,27 +4,31 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Card {
-	// n 1-17
-	// 1-12 = 2-k 13 a 14 little trump 15 big trump 16 joker 17 JOKER
+	// n 2-18
+	// 2-14 = 2-a 15: little trump 16: big trump 17: joker 18: JOKER
 	public int n;
 	
 	public boolean isTrump; 
-	// color 1-5, spade heart club diamond and trump
+	// color 0-4, spade heart club diamond and trump
 	public int color; 
 	public static final Map<Integer, String> suite 
 		                                = new HashMap<Integer, String>() {{
-        put(1, "Spade");
-        put(2, "Heart");
-        put(3, "Club");
-        put(4, "Diamond");
-        put(5, "Trump");
+        put(0, "Spade");
+        put(1, "Heart");
+        put(2, "Club");
+        put(3, "Diamond");
+        put(4, "Trump");
     }};;
     public static final Map<Integer, String> rank 
                                         = new HashMap<Integer, String>() {{
-        put(10, "Jack");
-        put(11, "Queen");
-        put(12, "King");
-        put(13, "Ace");
+        put(11, "Jack");
+        put(12, "Queen");
+        put(13, "King");
+        put(14, "Ace");
+        put(15, "minor");
+        put(16, "MAJOR");
+        put(17, "joker");
+        put(18, "JOKER");
      }};;
 	
 	public Card(){}
@@ -36,52 +40,40 @@ public class Card {
 	}
 	
 	public boolean isTrump(){
-		return color == 5;
+		return color == 4;
 	}
 		
-	public void setTrump(int hardn, int hardc){
-		if (color == hardc && n == hardn) {
-			color = 5;
+	public void setTrump(int rank, int hardc){
+		if (color == hardc && n == rank) {
+			color = 4;
+			n = 16;
+		} else if (n == rank) {
+			color = 4;
 			n = 15;
-		} else if (n == hardn) {
-			color = 5;
-			n = 14;
 		} else if (color == hardc){
-			color = 5;
+			color = 4;
 		}
 		
 	}
 	
 	public String toString() {
 		String str = "";
-		if (n == 16) {
-			str = "joker";
-		} else if (n == 17) {
-			str = "JOKE";
+		if (n > 10) {
+			str = rank.get(n);
 		} else {
-			String specialRank = (n + 1) + "";
-			if (n >= 10) specialRank = rank.get(n);
-			str = suite.get(color) + " " + specialRank; 
+			str = n + "";
+		}
+		
+		if (n < 15) {
+			str = suite.get(color) + "-" + str;
 		}
 		return str;
 	}
 	
-	public static String toString(int n) {
-		String str = "";
-		if (n == 16) {
-			str = "joker";
-		} else if (n == 17) {
-			str = "JOKE";
-		} else {
-			str = (n + 1) + "";
-			if (n >= 10) str = rank.get(n);
-		}
-		return str;
-	}
 	public int compareTo(Card another) {
-		if (this.color!=5 && another.color == 5) {
+		if (this.color != 4 && another.color == 4) {
 			return -1;
-		} else if (this.color==5 && another.color !=5){
+		} else if (this.color == 4 && another.color != 4){
 			return 1;
 		} else {
 			return new Integer(n).compareTo(new Integer(another.n));
